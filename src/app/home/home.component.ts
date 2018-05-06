@@ -1,9 +1,9 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { LatLngLiteral } from '@agm/core';
 import { Geokit } from 'geokit';
-import 'rxjs/add/operator/first';
 
 import { LocationService } from '../services/location.service';
 import { RestaurantsService } from '../services/restaurants.service';
@@ -14,7 +14,6 @@ import { RestaurantsService } from '../services/restaurants.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private _geoKit: Geokit = new Geokit();
   private _lastLocation: LatLngLiteral = { lat: 0, lng: 0 };
   private _lastOpen: string;
 
@@ -50,8 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public centerChange(coordinates: LatLngLiteral): void {
     this._lastLocation = coordinates;
 
-    this.coordsUser.first().subscribe((coords: LatLngLiteral) => {
-      if (this._geoKit.distance(coordinates, coords) > 0.005) { this._ls.updatingStop(); }
+    this.coordsUser.pipe(first()).subscribe((coords: LatLngLiteral) => {
+      if (Geokit.distance(coordinates, coords) > 0.005) { this._ls.updatingStop(); }
     });
   }
 
@@ -61,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public distance(start: LatLngLiteral, destination: LatLngLiteral): string {
-    return this._geoKit.distance(start, destination, 'miles').toFixed(1);
+    return Geokit.distance(start, destination, 'miles').toFixed(1);
   }
 
   public idle(): void {
@@ -73,7 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public toggleWatch(): void {
-    this._ls.updating.first().subscribe((state: boolean) => {
+    this._ls.updating.pipe(first()).subscribe((state: boolean) => {
       (state) ? this._ls.updatingStop() : this._ls.updatingStart();
     });
   }

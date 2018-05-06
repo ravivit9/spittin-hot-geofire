@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('spittin-hot-geofire App', () => {
+describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {

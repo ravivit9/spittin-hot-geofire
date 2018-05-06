@@ -30,15 +30,11 @@
 /coverage
 /libpeerconnection.log
 npm-debug.log
+yarn-error.log
 testem.log
 /typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
+firebase-debug.log
 
 # System Files
 .DS_Store
 Thumbs.db
-
-firebase-debug.log
