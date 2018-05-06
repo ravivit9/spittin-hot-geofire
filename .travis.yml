@@ -5,6 +5,6 @@ sudo: false
 install:
   - npm install
 script:
-  - if [ ${TRAVIS_BRANCH} == "dev" ]; then
+  - if [ ${TRAVIS_BRANCH} == "master" ]; then
       npm run deploy:travis
     fi
